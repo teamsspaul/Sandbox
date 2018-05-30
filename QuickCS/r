@@ -1,0 +1,3 @@
+#!/bin/bash
+mcs -out:Quick.exe Quick.cs
+mono ./Quick.exe
