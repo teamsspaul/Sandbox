@@ -228,34 +228,53 @@ class HelloWorld {
     return result;
   }
   static void Main() {
-    Console.WriteLine("Collect GateWidths");
-    double[] GateWidths = new double[] {18,20,22,24,26,30,34,40,50};
-    double[][] Uncertainty = MatrixCreate(GateWidths.Length,1);
-    //double[] Uncertainty = new double[GateWidths.Length];
-    for (int i = 0;i<GateWidths.Length;++i)
+    //Console.WriteLine("Collect GateWidths");
+    string text = System.IO.File.ReadAllText(@"Input80.txt");
+    string[] Lines = text.Split("\n");
+    double[] GateWidths = new double[Lines.Length-1];
+    double[] GateWidthsSorted = new double[Lines.Length-1];
+    double[][] Uncertainty = MatrixCreate(Lines.Length-1,1);
+    double[][] UncertaintySorted = MatrixCreate(Lines.Length-1,1);
+    for(int i=0;i<Lines.Length-1;++i)
     {
-      Uncertainty[i][0] = Math.Exp(-GateWidths[i])+0.00000000001*GateWidths[i]*GateWidths[i];
+      GateWidths[i] = Convert.ToDouble(Lines[i].Split(",")[0]);
+      GateWidthsSorted[i] = Convert.ToDouble(Lines[i].Split(",")[0]);
+      Uncertainty[i][0] = Convert.ToDouble(Lines[i].Split(",")[1]);
+      
     }
-    Console.WriteLine("GateWidths = ");
-    Console.WriteLine(ListAsString(GateWidths));
+    //Console.WriteLine("Sort GateWidths");
+    Array.Sort(GateWidthsSorted);
+    for (int i=0;i<Lines.Length-1;++i)
+    {
+      for (int j=0;j<Lines.Length-1;++j)
+      {
+        if(GateWidths[j]==GateWidthsSorted[i])
+	{
+	  UncertaintySorted[i][0] = Uncertainty[j][0];
+	}
+      }
+    }
+
+    //Console.WriteLine("GateWidths = ");
+    //Console.WriteLine(ListAsStringE(GateWidthsSorted));
     Console.WriteLine("Uncertainty = ");
-    Console.WriteLine(MatrixAsStringE(Uncertainty));
+    Console.WriteLine(MatrixAsStringE(UncertaintySorted));
 
     //Create the X Matrix
     int Order = 9;
-    int Cols  = Order;
+    int Cols  = Order+1;
     int Rows  = GateWidths.Length;
     double[][] X = MatrixCreate(Rows,Cols);
-    for ( int row = 0;row<Rows;++row)
-      for ( int col = 0;col<Cols;++col)
-        X[row][col] = Math.Pow(GateWidths[row],col);
-    Console.WriteLine("X Matrix is");
-    Console.WriteLine(MatrixAsString(X));
+    for (int row = 0;row<Rows;++row)
+      for (int col = 0;col<Cols;++col)
+        X[row][col] = Math.Pow(GateWidthsSorted[row],col);
+    //Console.WriteLine("X Matrix is");
+    //Console.WriteLine(MatrixAsStringE(X));
 
     //Create XT Matrix
     double[][] XT = Transpose(X);
-    Console.WriteLine("XT Matrix is");
-    Console.WriteLine(MatrixAsString(XT));
+    //Console.WriteLine("XT Matrix is");
+    //Console.WriteLine(MatrixAsStringE(XT));
 
     //Solve for coefficients
     double[][] a = MatrixProduct(MatrixProduct(MatrixInverse(MatrixProduct(XT,X)),XT),Uncertainty);
