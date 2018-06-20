@@ -1,0 +1,42 @@
+
+
+
+
+ FastTapX output Tuesday, June 19, 2018 4:49:40 PM D:/DDSI_Fresh_Fuel/022/GET_RATES_Files/15min_022-3.sorted.txt
+Parameters:
+PreDelay    = 4.0 microsec
+Gate Length = 24.0 microsec
+Long Delay  = 4096.0 microsec
+ - Number of Files(detectors) = 3
+Number of events analyzed=3960469
+Multiplicity histogram for Gate 1
+BinNumber	R+A Gate	A Gate
+0	4603	4742
+1	30283	31181
+2	99249	102292
+3	220806	227077
+4	374115	380636
+5	508056	515305
+6	580926	582780
+7	575006	573504
+8	499813	495980
+9	389153	385577
+10	276003	270469
+11	177348	173723
+12	106146	102312
+13	58790	56545
+14	30567	29657
+15	14538	14072
+16	6762	6466
+17	2885	2807
+18	1192	1155
+19	460	447
+20	172	165
+21	59	48
+22	25	15
+23	1	4
+24	1	1
+25	1	1
+26	0	0
+27	1	0
+Count time  = 13.738627 sec
